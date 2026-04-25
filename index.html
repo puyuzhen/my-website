@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Space Design</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="logo" onclick="goHome()">OFFICE<span>DESIGN</span></a>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-tab="layouts">平面布局</a>
+                <a href="#" class="nav-link" data-tab="styles">设计风格</a>
+            </div>
+            <button class="menu-btn" id="menuBtn">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" class="mobile-link active" data-tab="layouts">平面布局</a>
+        <a href="#" class="mobile-link" data-tab="styles">设计风格</a>
+    </div>
+
+    <!-- 主页 Hero -->
+    <section class="hero" id="heroSection">
+        <div class="hero-bg">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&h=700&fit=crop&q=90" alt="hero">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-tag">OFFICE DESIGN</p>
+            <h1 class="hero-title">办公空间设计<br>平面布局 · 设计风格</h1>
+            <p class="hero-desc">从100㎡到10000㎡，智能生成办公空间平面布局</p>
+            <a href="#main" class="hero-btn" onclick="scrollToMain()">开始设计</a>
+        </div>
+    </section>
+
+    <!-- 主内容区 -->
+    <main id="main">
+
+        <!-- 平面布局 -->
+        <section id="layouts" class="section active">
+            <div class="section-header">
+                <h2>平面布局方案</h2>
+                <p>选择面积，智能生成空间布局，点击模块查看详情</p>
+            </div>
+
+            <!-- 面积选择器 -->
+            <div class="area-selector">
+                <label>选择办公面积：</label>
+                <div class="area-buttons" id="areaButtons">
+                    <!-- JS 生成按钮 -->
+                </div>
+            </div>
+
+            <!-- 当前面积显示 -->
+            <div class="current-area">
+                <span>当前面积：</span>
+                <strong id="currentAreaDisplay">100㎡</strong>
+            </div>
+
+            <!-- 布局展示区 -->
+            <div class="layout-container">
+                <div class="layout-canvas" id="layoutCanvas">
+                    <!-- SVG 布局图 -->
+                </div>
+
+                <!-- 模块列表 -->
+                <div class="modules-panel">
+                    <h3>空间模块</h3>
+                    <p class="modules-hint">点击模块查看详情</p>
+                    <div class="modules-list" id="modulesList">
+                        <!-- JS 生成模块 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块详情弹窗 -->
+            <div class="modal" id="moduleModal">
+                <div class="modal-backdrop" onclick="closeModal()"></div>
+                <div class="modal-content">
+                    <button class="modal-close" onclick="closeModal()">×</button>
+                    <h3 id="modalTitle">模块名称</h3>
+                    <div class="modal-body" id="modalBody">
+                        <!-- 模块详情 -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 设计风格 -->
+        <section id="styles" class="section">
+            <div class="section-header">
+                <h2>设计风格</h2>
+                <p>多种风格选择，点击查看各风格详情及设计图集</p>
+            </div>
+
+            <div class="styles-grid" id="stylesGrid">
+                <!-- JS 生成风格卡片 -->
+            </div>
+        </section>
+
+        <!-- 风格详情页 -->
+        <section id="styleDetail" class="section">
+            <div class="detail-header">
+                <button class="back-btn" onclick="goBackToStyles()">← 返回风格列表</button>
+                <h2 id="detailTitle">风格名称</h2>
+                <p id="detailDesc">风格描述</p>
+                <div class="detail-tags" id="detailTags"></div>
+            </div>
+            <div class="masonry-grid" id="galleryGrid"></div>
+        </section>
+
+    </main>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="logo">OFFICE<span>DESIGN</span></span>
+            <p>© 2026 办公空间设计 · 专业 · 简洁 · 高效</p>
+        </div>
+    </footer>
+
+    <!-- 浮动预约按钮 -->
+    <button class="float-btn" onclick="openBookingModal()" title="预约咨询">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span>预约咨询</span>
+    </button>
+
+    <!-- 预约咨询弹窗 -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="modal-backdrop" onclick="closeBookingModal()"></div>
+        <div class="booking-modal-content">
+            <button class="modal-close" onclick="closeBookingModal()">×</button>
+            <h3>预约设计咨询</h3>
+            <p class="booking-subtitle">填写信息，我们将在24小时内联系您</p>
+            
+            <form class="booking-form" id="bookingForm" onsubmit="submitBooking(event)">
+                <div class="form-group">
+                    <label>您的姓名 <span class="required">*</span></label>
+                    <input type="text" name="name" placeholder="请输入您的姓名" required>
+                </div>
+
+                <div class="form-group">
+                    <label>联系电话 <span class="required">*</span></label>
+                    <input type="tel" name="phone" placeholder="请输入您的手机号" required pattern="[0-9]{11}">
+                </div>
+
+                <div class="form-group">
+                    <label>公司名称</label>
+                    <input type="text" name="company" placeholder="请输入公司名称（选填）">
+                </div>
+
+                <div class="form-group">
+                    <label>办公面积 <span class="required">*</span></label>
+                    <select name="area" required>
+                        <option value="">请选择面积范围</option>
+                        <option value="100-200">100-200㎡</option>
+                        <option value="200-500">200-500㎡</option>
+                        <option value="500-1000">500-1000㎡</option>
+                        <option value="1000-2000">1000-2000㎡</option>
+                        <option value="2000+">2000㎡以上</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>设计风格偏好</label>
+                    <select name="style">
+                        <option value="">请选择风格（选填）</option>
+                        <option value="modern">现代简约</option>
+                        <option value="creative">创意工作室</option>
+                        <option value="nordic">北欧风格</option>
+                        <option value="industrial">工业风格</option>
+                        <option value="luxury">高端商务</option>
+                        <option value="tech">科技智能</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>预算范围</label>
+                    <select name="budget">
+                        <option value="">请选择预算（选填）</option>
+                        <option value="500-1000">500-1000元/㎡</option>
+                        <option value="1000-1500">1000-1500元/㎡</option>
+                        <option value="1500-2000">1500-2000元/㎡</option>
+                        <option value="2000-3000">2000-3000元/㎡</option>
+                        <option value="3000+">3000元/㎡以上</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>需求描述</label>
+                    <textarea name="message" rows="4" placeholder="请简要描述您的设计需求和期望（选填）"></textarea>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" name="agree" required>
+                        <span>我已阅读并同意<a href="#" onclick="event.preventDefault()">《隐私政策》</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">提交预约</button>
+            </form>
+
+            <div class="booking-success" id="bookingSuccess" style="display:none;">
+                <div class="success-icon">✓</div>
+                <h4>预约成功！</h4>
+                <p>我们已收到您的预约信息</p>
+                <p>设计顾问将在24小时内与您联系</p>
+                <button class="submit-btn" onclick="closeBookingModal()">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
